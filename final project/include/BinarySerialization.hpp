@@ -60,6 +60,60 @@ namespace BinarySerialization
 
     template <typename T>
     void deserialize(std::unique_ptr<T> &obj, std::istream &is);
+
+    class serializer
+    {
+    public:
+        serializer(const std::string &filename) : os(filename, std::ios::binary)
+        {
+            if (!os.is_open())
+            {
+                std::cerr << "Error opening file " << filename << std::endl;
+                exit(1);
+            }
+        }
+
+        template <typename T>
+        void serialize(const T &obj)
+        {
+            BinarySerialization::serialize(obj, os);
+        }
+
+        ~serializer()
+        {
+            os.close();
+        }
+
+    private:
+        std::ofstream os;
+    };
+
+    class deserializer
+    {
+    public:
+        deserializer(const std::string &filename) : is(filename, std::ios::binary)
+        {
+            if (!is.is_open())
+            {
+                std::cerr << "Error opening file " << filename << std::endl;
+                exit(1);
+            }
+        }
+
+        template <typename T>
+        void deserialize(T &obj)
+        {
+            BinarySerialization::deserialize(obj, is);
+        }
+
+        ~deserializer()
+        {
+            is.close();
+        }
+
+    private:
+        std::ifstream is;
+    };
 }
 
 template <typename T>

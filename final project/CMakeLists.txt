@@ -28,3 +28,5 @@ add_test(map_test_xml ${CMAKE_SOURCE_DIR}/build/test/map_test_xml)
 add_test(base64_test ${CMAKE_SOURCE_DIR}/build/test/base64_test)
 
 add_test(unique_ptr_test ${CMAKE_SOURCE_DIR}/build/test/unique_ptr_test)
+
+add_test(user_defined_type_test ${CMAKE_SOURCE_DIR}/build/test/user_defined_type_test)
