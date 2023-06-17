@@ -2,8 +2,6 @@
 #include "BinarySerialization.hpp"
 using namespace BinarySerialization;
 
-#include <vector>
-
 template <typename T>
 void serialize(const T &obj)
 {
@@ -34,10 +32,6 @@ std::ostream &operator<<(std::ostream &os, const std::vector<T> &v)
 
 int main()
 {
-    // int a = 16, b;
-    // serialize(a, "test.bin");
-    // deserialize(b, "test.bin");
-    // std::cout << "a = " << a << std::endl;
-    // std::cout << "b = " << b << std::endl;
+    // question: 模版函数的匹配
     return 0;
 }

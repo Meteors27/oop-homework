@@ -1,5 +1,8 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <list>
+#include <vector>
 #define DEBUG 1
 
 namespace BinarySerialization
@@ -26,8 +29,11 @@ namespace BinarySerialization
     template <typename T>
     void deserialize(std::vector<T> &obj, std::istream &is);
 
-    // TODO: static assert that T is an arithmetic type
-    // question: 模版函数的匹配
+    template <typename T>
+    void serialize(const std::list<T> &obj, std::ostream &os);
+
+    template <typename T>
+    void deserialize(std::list<T> &obj, std::istream &is);
 }
 
 template <typename T>
@@ -114,4 +120,32 @@ void BinarySerialization::deserialize(std::vector<T> &obj, std::istream &is)
     obj.resize(size);
     for (auto &elem : obj)
         deserialize(elem, is);
+}
+
+template <typename T>
+void BinarySerialization::serialize(const std::list<T> &obj, std::ostream &os)
+{
+#if DEBUG
+    std::cout << "Serializing list" << std::endl;
+#endif
+    size_t size = obj.size();
+    os.write(reinterpret_cast<const char *>(&size), sizeof(size));
+    for (auto &elem : obj)
+        serialize(elem, os);
+}
+
+template <typename T>
+void BinarySerialization::deserialize(std::list<T> &obj, std::istream &is)
+{
+#if DEBUG
+    std::cout << "Deserializing list" << std::endl;
+#endif
+    size_t size;
+    is.read(reinterpret_cast<char *>(&size), sizeof(size));
+    for (size_t i = 0; i < size; i++)
+    {
+        T elem;
+        deserialize(elem, is);
+        obj.push_back(elem);
+    }
 }
