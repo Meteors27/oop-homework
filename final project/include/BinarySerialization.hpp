@@ -225,6 +225,13 @@ void BinarySerialization::serialize(const std::map<T1, T2> &obj, std::ostream &o
 #if DEBUG
     std::cout << "Serializing map" << std::endl;
 #endif
+    size_t size = obj.size();
+    os.write(reinterpret_cast<const char *>(&size), sizeof(size));
+    for (auto &elem : obj)
+    {
+        serialize(elem.first, os);
+        serialize(elem.second, os);
+    }
 }
 
 template <typename T1, typename T2>
@@ -233,4 +240,13 @@ void BinarySerialization::deserialize(std::map<T1, T2> &obj, std::istream &is)
 #if DEBUG
     std::cout << "Deserializing map" << std::endl;
 #endif
+    size_t size;
+    is.read(reinterpret_cast<char *>(&size), sizeof(size));
+    for (size_t i = 0; i < size; i++)
+    {
+        std::pair<T1, T2> elem;
+        deserialize(elem.first, is);
+        deserialize(elem.second, is);
+        obj.insert(elem);
+    }
 }
