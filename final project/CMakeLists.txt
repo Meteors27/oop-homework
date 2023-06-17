@@ -24,3 +24,5 @@ add_test(list_test_xml ${CMAKE_SOURCE_DIR}/build/test/list_test_xml)
 add_test(set_test_xml ${CMAKE_SOURCE_DIR}/build/test/set_test_xml)
 add_test(pair_test_xml ${CMAKE_SOURCE_DIR}/build/test/pair_test_xml)
 add_test(map_test_xml ${CMAKE_SOURCE_DIR}/build/test/map_test_xml)
+
+add_test(base64_test ${CMAKE_SOURCE_DIR}/build/test/base64_test)

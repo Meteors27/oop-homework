@@ -10,7 +10,7 @@
 namespace XMLSerialization
 {
 
-    using namespace tinyxml2; // XXX: where to place this?
+    using namespace tinyxml2;
     // file
     template <typename T>
     void serialize_xml(const T &obj, const std::string &filename);
