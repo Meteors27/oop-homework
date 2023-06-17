@@ -19,3 +19,4 @@ add_executable(base64_test base64_test.cpp ../src/tinyxml2.cpp)
 add_executable(unique_ptr_test unique_ptr_test.cpp)
 
 add_executable(user_defined_type_test user_defined_type_test.cpp)
+add_executable(user_defined_type_test_xml user_defined_type_test_xml.cpp ../src/tinyxml2.cpp)

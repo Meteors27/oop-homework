@@ -70,6 +70,59 @@ namespace XMLSerialization
 
     template <typename T>
     void deserialize_xml(std::set<T> &obj, XMLDocument &doc, XMLElement *self);
+
+    class serializer
+    {
+    public:
+        serializer(const std::string &filename, const std::string &nodeName) : filename(filename)
+        {
+            auto root = doc.NewElement("serialization");
+            doc.InsertEndChild(root);
+            parent = root->InsertNewChildElement(nodeName.c_str());
+        }
+
+        template <typename T>
+        void serialize(const T &obj)
+        {
+            XMLSerialization::serialize_xml(obj, doc, parent);
+        }
+        ~serializer()
+        {
+            doc.SaveFile(filename.c_str());
+        }
+
+    private:
+        const std::string &filename;
+        XMLDocument doc;
+        XMLElement *parent;
+    };
+    class deserializer
+    {
+    public:
+        deserializer(const std::string &filename, const std::string &nodeName)
+        {
+            if (doc.LoadFile(filename.c_str()) != XML_SUCCESS)
+                throw std::runtime_error("Failed to load XML file: " + filename);
+            auto root = doc.FirstChildElement("serialization");
+            if (!root)
+                throw std::runtime_error("Invalid XML format: missing root element");
+            auto parent = root->FirstChildElement(nodeName.c_str());
+            if (!parent)
+                throw std::runtime_error("Invalid XML format: missing node element");
+            child = parent->FirstChildElement();
+        }
+
+        template <typename T>
+        void deserialize(T &obj)
+        {
+            XMLSerialization::deserialize_xml(obj, doc, child);
+            child = child->NextSiblingElement();
+        }
+
+    private:
+        XMLDocument doc;
+        XMLElement *child;
+    };
 }
 
 template <typename T>
