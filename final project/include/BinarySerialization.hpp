@@ -6,7 +6,6 @@
 #include <set>
 #include <map>
 #pragma once
-#define DEBUG 1
 
 namespace BinarySerialization
 {
@@ -55,6 +54,12 @@ namespace BinarySerialization
 
     template <typename T1, typename T2>
     void deserialize(std::map<T1, T2> &obj, std::istream &is);
+
+    template <typename T>
+    void serialize(const std::unique_ptr<T> &obj, std::ostream &os);
+
+    template <typename T>
+    void deserialize(std::unique_ptr<T> &obj, std::istream &is);
 }
 
 template <typename T>
@@ -99,9 +104,6 @@ void BinarySerialization::deserialize(T &obj, std::istream &is)
 
 void BinarySerialization::serialize(const std::string &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing string" << std::endl;
-#endif
     size_t size = obj.size();
     os.write(reinterpret_cast<const char *>(&size), sizeof(size)); // TODO: check if this is correct
     os.write(obj.c_str(), size);                                   // TODO: check if this is correct
@@ -109,9 +111,6 @@ void BinarySerialization::serialize(const std::string &obj, std::ostream &os)
 
 void BinarySerialization::deserialize(std::string &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing string" << std::endl;
-#endif
     size_t size;
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     obj.resize(size);
@@ -121,9 +120,6 @@ void BinarySerialization::deserialize(std::string &obj, std::istream &is)
 template <typename T>
 void BinarySerialization::serialize(const std::vector<T> &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing vector" << std::endl;
-#endif
     size_t size = obj.size();
     os.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (auto &elem : obj)
@@ -133,9 +129,6 @@ void BinarySerialization::serialize(const std::vector<T> &obj, std::ostream &os)
 template <typename T>
 void BinarySerialization::deserialize(std::vector<T> &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing vector" << std::endl;
-#endif
     size_t size;
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     obj.resize(size);
@@ -146,9 +139,6 @@ void BinarySerialization::deserialize(std::vector<T> &obj, std::istream &is)
 template <typename T>
 void BinarySerialization::serialize(const std::list<T> &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing list" << std::endl;
-#endif
     size_t size = obj.size();
     os.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (auto &elem : obj)
@@ -158,9 +148,6 @@ void BinarySerialization::serialize(const std::list<T> &obj, std::ostream &os)
 template <typename T>
 void BinarySerialization::deserialize(std::list<T> &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing list" << std::endl;
-#endif
     size_t size;
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     for (size_t i = 0; i < size; i++)
@@ -174,9 +161,6 @@ void BinarySerialization::deserialize(std::list<T> &obj, std::istream &is)
 template <typename T>
 void BinarySerialization::serialize(const std::set<T> &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing set" << std::endl;
-#endif
     size_t size = obj.size();
     os.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (auto &elem : obj)
@@ -186,9 +170,6 @@ void BinarySerialization::serialize(const std::set<T> &obj, std::ostream &os)
 template <typename T>
 void BinarySerialization::deserialize(std::set<T> &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing set" << std::endl;
-#endif
     size_t size;
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     for (size_t i = 0; i < size; i++)
@@ -202,9 +183,6 @@ void BinarySerialization::deserialize(std::set<T> &obj, std::istream &is)
 template <typename T1, typename T2>
 void BinarySerialization::serialize(const std::pair<T1, T2> &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing pair" << std::endl;
-#endif
     serialize(obj.first, os);
     serialize(obj.second, os);
 }
@@ -212,9 +190,6 @@ void BinarySerialization::serialize(const std::pair<T1, T2> &obj, std::ostream &
 template <typename T1, typename T2>
 void BinarySerialization::deserialize(std::pair<T1, T2> &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing pair" << std::endl;
-#endif
     deserialize(obj.first, is);
     deserialize(obj.second, is);
 }
@@ -222,9 +197,6 @@ void BinarySerialization::deserialize(std::pair<T1, T2> &obj, std::istream &is)
 template <typename T1, typename T2>
 void BinarySerialization::serialize(const std::map<T1, T2> &obj, std::ostream &os)
 {
-#if DEBUG
-    std::cout << "Serializing map" << std::endl;
-#endif
     size_t size = obj.size();
     os.write(reinterpret_cast<const char *>(&size), sizeof(size));
     for (auto &elem : obj)
@@ -237,9 +209,6 @@ void BinarySerialization::serialize(const std::map<T1, T2> &obj, std::ostream &o
 template <typename T1, typename T2>
 void BinarySerialization::deserialize(std::map<T1, T2> &obj, std::istream &is)
 {
-#if DEBUG
-    std::cout << "Deserializing map" << std::endl;
-#endif
     size_t size;
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     for (size_t i = 0; i < size; i++)
@@ -249,4 +218,17 @@ void BinarySerialization::deserialize(std::map<T1, T2> &obj, std::istream &is)
         deserialize(elem.second, is);
         obj.insert(elem);
     }
+}
+
+template <typename T>
+void BinarySerialization::serialize(const std::unique_ptr<T> &obj, std::ostream &os)
+{
+    serialize(*obj, os);
+}
+
+template <typename T>
+void BinarySerialization::deserialize(std::unique_ptr<T> &obj, std::istream &is)
+{
+    obj = std::make_unique<T>();
+    deserialize(*obj, is);
 }

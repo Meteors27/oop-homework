@@ -1,8 +1,20 @@
 #include <iostream>
-#include "XMLSerialization.hpp"
-#include "tinyxml2.h"
-#include "Base64.hpp"
-#include "XMLSerialization_Base64.hpp"
+#include "BinarySerialization.hpp"
+
+// print vector
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const std::vector<T> &obj)
+{
+    os << "[";
+    for (auto it = obj.begin(); it != obj.end(); ++it)
+    {
+        os << *it;
+        if (it != obj.end() - 1)
+            os << ", ";
+    }
+    os << "]";
+    return os;
+}
 
 int main()
 {
@@ -10,22 +22,13 @@ int main()
     // using namespace tinyxml2;
     // // question: 模版函数的匹配
     // // 错误处理
-    // tinyxml2::XMLDocument doc;
-    // doc.LoadFile("serialize.xml");
+    std::unique_ptr<std::vector<int>> a(new std::vector<int>{1, 2, 3, 4, 5}), b;
+    using namespace BinarySerialization;
 
-    // tinyxml2::XMLPrinter printer;
-    // doc.Accept(&printer);
+    serialize(a, "test.data");
+    deserialize(b, "test.data");
 
-    // std::string xmlString = printer.CStr();
-
-    // std::cout << xmlString << std::endl;
-    // std::string base64String = base64_encode(xmlString.c_str(), xmlString.length());
-    // std::cout << base64_decode(base64String) << std::endl;
-    std::vector<std::pair<int, std::string>> a = {{1, "hello"}, {2, "world"}}, b;
-
-    XMLSerialization::serialize_xml_base64(a, "serialize.base64");
-    XMLSerialization::deserialize_xml_base64(b, "serialize.base64");
-    std::cout << (a == b ? "true" : "false") << std::endl;
-
+    std::cout << (*a == *b ? "true" : "false") << std::endl;
+    std::cout << *b << std::endl;
     return 0;
 }

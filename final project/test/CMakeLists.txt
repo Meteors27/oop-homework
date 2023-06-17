@@ -15,3 +15,5 @@ add_executable(pair_test_xml pair_test_xml.cpp ../src/tinyxml2.cpp)
 add_executable(map_test_xml map_test_xml.cpp ../src/tinyxml2.cpp)
 
 add_executable(base64_test base64_test.cpp ../src/tinyxml2.cpp)
+
+add_executable(unique_ptr_test unique_ptr_test.cpp)
