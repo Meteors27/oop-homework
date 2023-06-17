@@ -41,6 +41,12 @@ namespace BinarySerialization
 
     template <typename T>
     void deserialize(std::set<T> &obj, std::istream &is);
+
+    template <typename T1, typename T2>
+    void serialize(const std::pair<T1, T2> &obj, std::ostream &os);
+
+    template <typename T1, typename T2>
+    void deserialize(std::pair<T1, T2> &obj, std::istream &is);
 }
 
 template <typename T>
@@ -183,4 +189,24 @@ void BinarySerialization::deserialize(std::set<T> &obj, std::istream &is)
         deserialize(elem, is);
         obj.insert(elem);
     }
+}
+
+template <typename T1, typename T2>
+void BinarySerialization::serialize(const std::pair<T1, T2> &obj, std::ostream &os)
+{
+#if DEBUG
+    std::cout << "Serializing pair" << std::endl;
+#endif
+    serialize(obj.first, os);
+    serialize(obj.second, os);
+}
+
+template <typename T1, typename T2>
+void BinarySerialization::deserialize(std::pair<T1, T2> &obj, std::istream &is)
+{
+#if DEBUG
+    std::cout << "Deserializing pair" << std::endl;
+#endif
+    deserialize(obj.first, is);
+    deserialize(obj.second, is);
 }
