@@ -1,13 +1,9 @@
 #include <iostream>
 #include <string>
-#include "BinarySerialization.hpp"
+#include "test.hpp"
 
 int main()
 {
-    std::string a = "test", b;
-    BinarySerialization::serialize(a, "test.data");
-    BinarySerialization::deserialize(b, "test.data");
-    if (a != b)
-        exit(1);
+    test(std::string("foo"));
     return 0;
 }

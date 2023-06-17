@@ -4,6 +4,8 @@
 #include <list>
 #include <vector>
 #include <set>
+#include <map>
+#pragma once
 #define DEBUG 1
 
 namespace BinarySerialization
@@ -47,6 +49,12 @@ namespace BinarySerialization
 
     template <typename T1, typename T2>
     void deserialize(std::pair<T1, T2> &obj, std::istream &is);
+
+    template <typename T1, typename T2>
+    void serialize(const std::map<T1, T2> &obj, std::ostream &os);
+
+    template <typename T1, typename T2>
+    void deserialize(std::map<T1, T2> &obj, std::istream &is);
 }
 
 template <typename T>
@@ -209,4 +217,20 @@ void BinarySerialization::deserialize(std::pair<T1, T2> &obj, std::istream &is)
 #endif
     deserialize(obj.first, is);
     deserialize(obj.second, is);
+}
+
+template <typename T1, typename T2>
+void BinarySerialization::serialize(const std::map<T1, T2> &obj, std::ostream &os)
+{
+#if DEBUG
+    std::cout << "Serializing map" << std::endl;
+#endif
+}
+
+template <typename T1, typename T2>
+void BinarySerialization::deserialize(std::map<T1, T2> &obj, std::istream &is)
+{
+#if DEBUG
+    std::cout << "Deserializing map" << std::endl;
+#endif
 }

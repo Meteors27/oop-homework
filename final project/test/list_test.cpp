@@ -1,18 +1,6 @@
-#include "BinarySerialization.hpp"
 #include <list>
-#include <vector>
-using namespace BinarySerialization;
-
-template <typename T>
-void test(T a)
-{
-    T b;
-    serialize(a, "test.data");
-    deserialize(b, "test.data");
-    if (a != b)
-        exit(1);
-    return;
-}
+#include "test.hpp"
+using namespace std;
 
 int main()
 {

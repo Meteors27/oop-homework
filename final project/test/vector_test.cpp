@@ -1,19 +1,5 @@
-#include <iostream>
-#include "BinarySerialization.hpp"
+#include "test.hpp"
 using namespace std;
-using namespace BinarySerialization;
-
-template <typename T>
-void test(T a)
-{
-    T b;
-    serialize(a, "test.data");
-    deserialize(b, "test.data");
-    if (a != b)
-        exit(1);
-    return;
-}
-
 int main()
 {
     test(vector<string>{"foo", "bar"});

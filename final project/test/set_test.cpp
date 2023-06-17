@@ -1,20 +1,6 @@
-#include "BinarySerialization.hpp"
 #include <set>
-#include <string>
-using namespace BinarySerialization;
+#include "test.hpp"
 using namespace std;
-
-template <typename T>
-void test(T a)
-{
-    T b;
-    serialize(a, "test.data");
-    deserialize(b, "test.data");
-    if (a != b)
-        exit(1);
-    return;
-}
-
 int main()
 {
     test(set<string>{"foo", "bar"});
