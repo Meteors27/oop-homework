@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <map>
@@ -5,9 +6,11 @@
 #include <set>
 #include <iostream>
 #include "tinyxml2.h"
-using namespace tinyxml2; // XXX: where to place this?
+
 namespace XMLSerialization
 {
+
+    using namespace tinyxml2; // XXX: where to place this?
     // file
     template <typename T>
     void serialize_xml(const T &obj, const std::string &filename);
@@ -110,7 +113,30 @@ template <typename T>
 void XMLSerialization::deserialize_xml(T &obj, XMLDocument &doc, XMLElement *self)
 {
     static_assert(std::is_arithmetic<T>::value, "Only arithmetic types are supported");
-    self->QueryAttribute("val", &obj);
+    if (std::is_same<T, int>::value)
+        obj = self->IntAttribute("val");
+    else if (std::is_same<T, unsigned int>::value)
+        obj = self->UnsignedAttribute("val");
+    else if (std::is_same<T, long long>::value)
+        obj = self->Int64Attribute("val");
+    else if (std::is_same<T, unsigned long long>::value)
+        obj = self->Unsigned64Attribute("val");
+    else if (std::is_same<T, float>::value)
+        obj = self->FloatAttribute("val");
+    else if (std::is_same<T, double>::value)
+        obj = self->DoubleAttribute("val");
+    else if (std::is_same<T, char>::value)
+        obj = self->IntAttribute("val");
+    else if (std::is_same<T, unsigned char>::value)
+        obj = self->UnsignedAttribute("val");
+    else if (std::is_same<T, short>::value)
+        obj = self->IntAttribute("val");
+    else if (std::is_same<T, unsigned short>::value)
+        obj = self->UnsignedAttribute("val");
+    else if (std::is_same<T, bool>::value)
+        obj = self->BoolAttribute("val");
+    else
+        throw std::runtime_error("Unsupported arithmetic type");
 }
 
 void XMLSerialization::serialize_xml(const std::string &obj, XMLDocument &doc, XMLElement *parent)

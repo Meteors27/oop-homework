@@ -1,20 +1,19 @@
-#include "test.hpp"
-
+#include "test_bin.hpp"
 int main()
 {
-    test(int{1});
-    test((unsigned int){1});
-    test((long){1});
-    test((unsigned long){1});
-    test((long long){1});
-    test((unsigned long long){1});
-    test((float){1});
-    test((double){1});
-    test((long double){1});
-    test((char){1});
-    test((unsigned char){1});
-    test((short){1});
-    test((unsigned short){1});
-    test((bool){true});
+    test_bin(int{1});
+    test_bin((unsigned int){1});
+    test_bin((long){1});
+    test_bin((unsigned long){1});
+    test_bin((long long){1});
+    test_bin((unsigned long long){1});
+    test_bin((float){1});
+    test_bin((double){1});
+    test_bin((long double){1});
+    test_bin((char){1});
+    test_bin((unsigned char){1});
+    test_bin((short){1});
+    test_bin((unsigned short){1});
+    test_bin((bool){true});
     return 0;
 }

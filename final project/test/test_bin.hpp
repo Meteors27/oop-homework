@@ -2,7 +2,7 @@
 #pragma once
 
 template <typename T>
-void test(T a)
+void test_bin(T a)
 {
     T b;
     BinarySerialization::serialize(a, "test.data");

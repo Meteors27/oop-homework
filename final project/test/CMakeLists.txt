@@ -1,4 +1,3 @@
-project(TEST)
 add_executable(arithmetic_test arithmetic_test.cpp)
 add_executable(string_test string_test.cpp)
 add_executable(vector_test vector_test.cpp)
@@ -6,3 +5,6 @@ add_executable(list_test list_test.cpp)
 add_executable(set_test set_test.cpp)
 add_executable(pair_test pair_test.cpp)
 add_executable(map_test map_test.cpp)
+
+add_executable(arithmetic_test_xml arithmetic_test_xml.cpp ../src/tinyxml2.cpp)
+add_executable(pair_test_xml pair_test_xml.cpp ../src/tinyxml2.cpp)

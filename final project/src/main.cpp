@@ -1,8 +1,6 @@
 #include <iostream>
 #include "XMLSerialization.hpp"
 
-using namespace XMLSerialization;
-
 // print pair
 template <typename T1, typename T2>
 std::ostream &operator<<(std::ostream &os, const std::pair<T1, T2> &obj)
@@ -13,6 +11,7 @@ std::ostream &operator<<(std::ostream &os, const std::pair<T1, T2> &obj)
 
 int main()
 {
+    using namespace XMLSerialization;
     // question: 模版函数的匹配
     // 错误处理
     // std::string a = "Hello World!", b;

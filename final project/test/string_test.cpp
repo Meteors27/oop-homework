@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include "test.hpp"
+#include "test_bin.hpp"
 
 int main()
 {
-    test(std::string("foo"));
+    test_bin(std::string("foo"));
     return 0;
 }

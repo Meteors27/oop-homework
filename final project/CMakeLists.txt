@@ -16,3 +16,6 @@ add_test(list_test ${CMAKE_SOURCE_DIR}/build/test/list_test)
 add_test(set_test ${CMAKE_SOURCE_DIR}/build/test/set_test)
 add_test(pair_test ${CMAKE_SOURCE_DIR}/build/test/pair_test)
 add_test(map_test ${CMAKE_SOURCE_DIR}/build/test/map_test)
+
+add_test(arithmetic_test_xml ${CMAKE_SOURCE_DIR}/build/test/arithmetic_test_xml)
+add_test(pair_test_xml ${CMAKE_SOURCE_DIR}/build/test/pair_test_xml)
