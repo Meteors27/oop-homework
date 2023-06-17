@@ -29,20 +29,47 @@ namespace XMLSerialization
     void serialize_xml(const T &obj, XMLDocument &doc, XMLElement *parent);
 
     template <typename T>
-    void deserialize_xml(T &obj, XMLDocument &doc, XMLElement *parent);
+    void deserialize_xml(T &obj, XMLDocument &doc, XMLElement *self);
 
     // string
     void serialize_xml(const std::string &obj, XMLDocument &doc, XMLElement *parent);
 
-    void deserialize_xml(std::string &obj, XMLDocument &doc, XMLElement *parent);
+    void deserialize_xml(std::string &obj, XMLDocument &doc, XMLElement *self);
 
     // pair
     template <typename T1, typename T2>
     void serialize_xml(const std::pair<T1, T2> &obj, XMLDocument &doc, XMLElement *parent);
 
     template <typename T1, typename T2>
-    void deserialize_xml(std::pair<T1, T2> &obj, XMLDocument &doc, XMLElement *parent);
+    void deserialize_xml(std::pair<T1, T2> &obj, XMLDocument &doc, XMLElement *self);
 
+    // vector
+    template <typename T>
+    void serialize_xml(const std::vector<T> &obj, XMLDocument &doc, XMLElement *parent);
+
+    template <typename T>
+    void deserialize_xml(std::vector<T> &obj, XMLDocument &doc, XMLElement *self);
+
+    // map
+    template <typename T1, typename T2>
+    void serialize_xml(const std::map<T1, T2> &obj, XMLDocument &doc, XMLElement *parent);
+
+    template <typename T1, typename T2>
+    void deserialize_xml(std::map<T1, T2> &obj, XMLDocument &doc, XMLElement *self);
+
+    // list
+    template <typename T>
+    void serialize_xml(const std::list<T> &obj, XMLDocument &doc, XMLElement *parent);
+
+    template <typename T>
+    void deserialize_xml(std::list<T> &obj, XMLDocument &doc, XMLElement *self);
+
+    // set
+    template <typename T>
+    void serialize_xml(const std::set<T> &obj, XMLDocument &doc, XMLElement *parent);
+
+    template <typename T>
+    void deserialize_xml(std::set<T> &obj, XMLDocument &doc, XMLElement *self);
 }
 
 template <typename T>
@@ -167,4 +194,90 @@ void XMLSerialization::deserialize_xml(std::pair<T1, T2> &obj, XMLDocument &doc,
 {
     deserialize_xml(obj.first, doc, self->FirstChildElement());
     deserialize_xml(obj.second, doc, self->FirstChildElement()->NextSiblingElement());
+}
+
+template <typename T>
+void XMLSerialization::serialize_xml(const std::vector<T> &obj, XMLDocument &doc, XMLElement *parent)
+{
+    XMLElement *element = doc.NewElement("vector");
+    parent->InsertEndChild(element);
+    for (const auto &item : obj)
+        serialize_xml(item, doc, element);
+}
+
+template <typename T>
+void XMLSerialization::deserialize_xml(std::vector<T> &obj, XMLDocument &doc, XMLElement *self)
+{
+    obj.clear();
+    for (XMLElement *element = self->FirstChildElement(); element; element = element->NextSiblingElement())
+    {
+        T item;
+        deserialize_xml(item, doc, element);
+        obj.push_back(item);
+    }
+}
+
+template <typename T1, typename T2>
+void XMLSerialization::serialize_xml(const std::map<T1, T2> &obj, XMLDocument &doc, XMLElement *parent)
+{
+    XMLElement *element = doc.NewElement("map");
+    parent->InsertEndChild(element);
+    for (const auto &item : obj)
+    {
+        serialize_xml(item, doc, element);
+    }
+}
+
+template <typename T1, typename T2>
+void XMLSerialization::deserialize_xml(std::map<T1, T2> &obj, XMLDocument &doc, XMLElement *self)
+{
+    obj.clear();
+    for (XMLElement *element = self->FirstChildElement(); element; element = element->NextSiblingElement())
+    {
+        std::pair<T1, T2> item;
+        deserialize_xml(item, doc, element);
+        obj.insert(item);
+    }
+}
+
+template <typename T>
+void XMLSerialization::serialize_xml(const std::list<T> &obj, XMLDocument &doc, XMLElement *parent)
+{
+    XMLElement *element = doc.NewElement("list");
+    parent->InsertEndChild(element);
+    for (const auto &item : obj)
+        serialize_xml(item, doc, element);
+}
+
+template <typename T>
+void XMLSerialization::deserialize_xml(std::list<T> &obj, XMLDocument &doc, XMLElement *self)
+{
+    obj.clear();
+    for (XMLElement *element = self->FirstChildElement(); element; element = element->NextSiblingElement())
+    {
+        T item;
+        deserialize_xml(item, doc, element);
+        obj.push_back(item);
+    }
+}
+
+template <typename T>
+void XMLSerialization::serialize_xml(const std::set<T> &obj, XMLDocument &doc, XMLElement *parent)
+{
+    XMLElement *element = doc.NewElement("set");
+    parent->InsertEndChild(element);
+    for (const auto &item : obj)
+        serialize_xml(item, doc, element);
+}
+
+template <typename T>
+void XMLSerialization::deserialize_xml(std::set<T> &obj, XMLDocument &doc, XMLElement *self)
+{
+    obj.clear();
+    for (XMLElement *element = self->FirstChildElement(); element; element = element->NextSiblingElement())
+    {
+        T item;
+        deserialize_xml(item, doc, element);
+        obj.insert(item);
+    }
 }
