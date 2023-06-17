@@ -1,16 +1,4 @@
-#include <iostream>
-#include "BinarySerialization.hpp"
-
-template <typename T>
-void test(T a)
-{
-    T b;
-    BinarySerialization::serialize(a, "test.data");
-    BinarySerialization::deserialize(b, "test.data");
-    if (a != b)
-        exit(1);
-    return;
-}
+#include "test.hpp"
 
 int main()
 {
