@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <set>
 #define DEBUG 1
 
 namespace BinarySerialization
@@ -34,6 +35,12 @@ namespace BinarySerialization
 
     template <typename T>
     void deserialize(std::list<T> &obj, std::istream &is);
+
+    template <typename T>
+    void serialize(const std::set<T> &obj, std::ostream &os);
+
+    template <typename T>
+    void deserialize(std::set<T> &obj, std::istream &is);
 }
 
 template <typename T>
@@ -147,5 +154,33 @@ void BinarySerialization::deserialize(std::list<T> &obj, std::istream &is)
         T elem;
         deserialize(elem, is);
         obj.push_back(elem);
+    }
+}
+
+template <typename T>
+void BinarySerialization::serialize(const std::set<T> &obj, std::ostream &os)
+{
+#if DEBUG
+    std::cout << "Serializing set" << std::endl;
+#endif
+    size_t size = obj.size();
+    os.write(reinterpret_cast<const char *>(&size), sizeof(size));
+    for (auto &elem : obj)
+        serialize(elem, os);
+}
+
+template <typename T>
+void BinarySerialization::deserialize(std::set<T> &obj, std::istream &is)
+{
+#if DEBUG
+    std::cout << "Deserializing set" << std::endl;
+#endif
+    size_t size;
+    is.read(reinterpret_cast<char *>(&size), sizeof(size));
+    for (size_t i = 0; i < size; i++)
+    {
+        T elem;
+        deserialize(elem, is);
+        obj.insert(elem);
     }
 }
