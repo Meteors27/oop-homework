@@ -1,4 +1,5 @@
 #include "XMLSerialization.hpp"
+#include <iostream>
 #pragma once
 
 template <typename T>
@@ -12,5 +13,6 @@ void test_xml(T a)
     XMLSerialization::deserialize_xml(c, "test.xml");
     if (a != b || a != c)
         exit(1);
+    std::cout << "test successfully, output file 'test.xml'" << std::endl;
     return;
 }

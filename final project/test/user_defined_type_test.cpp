@@ -42,4 +42,5 @@ int main()
     ddl2.deserialize("ddl.bin");
     if (ddl1 != ddl2)
         exit(1);
+    std::cout << "test successfully, output file 'ddl.bin'" << std::endl;
 }

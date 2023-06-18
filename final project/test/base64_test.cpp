@@ -8,5 +8,6 @@ int main()
     XMLSerialization::deserialize_xml_base64(b, "serialize.base64");
     if (a != b)
         exit(1);
+    std::cout << "test successfully, output file 'serialize.base64'" << std::endl;
     return 0;
 }

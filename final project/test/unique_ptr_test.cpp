@@ -10,5 +10,7 @@ int main()
 
     if (*a != *b)
         exit(1);
+
+    std::cout << "test successfully, output file 'test.data'" << std::endl;
     return 0;
 }

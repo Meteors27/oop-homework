@@ -28,6 +28,10 @@ struct DDL
     {
         return name == other.name && left_days == other.left_days && ref_books == other.ref_books;
     }
+    bool operator!=(const DDL &other) const
+    {
+        return !operator==(other);
+    }
 };
 
 int main()
@@ -35,8 +39,7 @@ int main()
     DDL ddl1 = {"C++ Primer", 10, {"C++ Primer", "Effective C++"}}, ddl2;
     ddl1.serialize("ddl.xml");
     ddl2.deserialize("ddl.xml");
-    std::cout << (ddl1 == ddl2
-                      ? "true"
-                      : "false")
-              << std::endl;
+    if (ddl1 != ddl2)
+        exit(1);
+    std::cout << "test successfully, output file 'ddl.bin'" << std::endl;
 }
